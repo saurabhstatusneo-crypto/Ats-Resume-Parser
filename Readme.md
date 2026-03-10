@@ -30,5 +30,3 @@ postman request POST 'http://localhost:8080/api/auth/signup' \
 
 // get user details
 postman request 'http://localhost:8080/api/resumes/profile/{Id}'
-
-
