@@ -2,10 +2,12 @@ package com.example.tpms.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,11 +22,12 @@ import java.util.*;
 @Service
 public class GroqService {
 
+
     @Value("${groq.api.key}")
     private String apiKey;
+
     private final String GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
 
-    // 1. Create a Netty HttpClient that uses the System's Default DNS resolver
     HttpClient httpClient = HttpClient.create()
             .resolver(DefaultAddressResolverGroup.INSTANCE);
 
@@ -93,7 +96,6 @@ public class GroqService {
     }
 
     public Object processResumeDirectly(MultipartFile file) throws Exception {
-            // 1. PDF se text nikalna (Pure PDFBox, No Tika)
             String extractedText;
             try (InputStream is = file.getInputStream();
                  PDDocument document = PDDocument.load(is)) {
@@ -101,7 +103,7 @@ public class GroqService {
                 extractedText = stripper.getText(document);
             }
             return sendToGroq(extractedText);
-        }
+    }
 
     private Object sendToGroq(String text) throws Exception { // Change return type to Object
         String cleanText = text.replaceAll("[\"\\r\\n\\t]", " ").trim();
@@ -139,4 +141,5 @@ public class GroqService {
 
         }
     }
+
     }

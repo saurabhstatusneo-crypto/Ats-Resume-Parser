@@ -13,6 +13,9 @@ public class UserProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String username;
+
     private String name;
     private String title;
     private String email;
@@ -20,11 +23,12 @@ public class UserProfile {
     private String location;
     private String linkedin;
     private String github;
+    private String role;
+    private String password;
 
     @Column(columnDefinition = "TEXT")
     private String professionalSummary;
 
-    // Relationships
     @OneToMany(cascade = CascadeType.ALL)
     private List<userEducation> education;
 

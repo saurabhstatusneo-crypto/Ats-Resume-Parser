@@ -1,5 +1,6 @@
 package com.example.tpms.controller;
 
+import com.example.tpms.dto.UserProfileDto;
 import com.example.tpms.entity.UserProfile;
 import com.example.tpms.service.GroqService;
 import com.example.tpms.service.ResumeService;
@@ -11,9 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.web.bind.annotation.*;
-
+import tools.jackson.databind.ObjectMapper;
 
 
 @RestController
@@ -24,6 +24,8 @@ public class ResumeController {
     @Autowired
     private ResumeService resumeService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private GroqService groqService;
@@ -50,12 +52,27 @@ public class ResumeController {
     public ResponseEntity<Object> handleResumeUpload(@RequestParam("file") MultipartFile file) {
         try {
             Object o = groqService.processResumeDirectly(file);
-            // Returning the node as an Object usually triggers the correct content serialization
-             return
-                     ResponseEntity.ok(o);
+            String structuredData = objectMapper.writeValueAsString(o);
+            UserProfile userProfile = userService.saveUserFromJson(structuredData);
+            return ResponseEntity.ok(userProfile);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
 
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<UserProfileDto> getUserProfile(@PathVariable Long id) {
+        try {
+            UserProfileDto profile = userService.getUserProfileComplete(id);
+            if (profile != null) {
+                return ResponseEntity.ok(profile);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            // Logging handles the error and returns 500
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
