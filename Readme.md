@@ -1,4 +1,4 @@
-# 🚀 TMPS Backend
+# 🚀 TPMS Backend
 
 A Spring Boot based backend service that provides APIs for resume parsing and data processing.
 The project is containerized using Docker for easy deployment.
