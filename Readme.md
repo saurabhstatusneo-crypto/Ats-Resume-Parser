@@ -1,32 +1,93 @@
-update the groq api at application.properties =
-groq.api.key = ENTER_YOUR_GROQ_API_HERE 
+# 🚀 TMPS Backend
 
-using TpmsApplication
+A Spring Boot based backend service that provides APIs for resume parsing and data processing.
+The project is containerized using Docker for easy deployment.
 
+---
 
-// use this curl to direct upload the resume directly to the ai-agent groq 
-postman request POST 'http://localhost:8080/api/resumes/ai/upload' 'file=@"/C:/Users/SaurabhSharma/Downloads/saurabh-sharma-resume-updated (1).pdf"'
+# ⚙️ Setup Instructions
 
-// USE THIS CURL TO UPLOAD THE RESUME AT THE APACHE TIKA
-postman request POST 'http://localhost:8080/api/resumes/upload' 'file=@"/C:/Users/SaurabhSharma/Downloads/saurabh-sharma-resume-updated (1).pdf"'
+## 1️⃣ Configure Groq API Key
 
-// login
-postman request POST 'http://localhost:8080/api/auth/login' \
---header 'Content-Type: application/json' \
---body '{
-"username":"kala",
-"password": "kala@1234",
-"name" : "kala_chawal"
-}'
+Open the `application.properties` file and update your Groq API key:
 
-// signup
-postman request POST 'http://localhost:8080/api/auth/signup' \
---header 'Content-Type: application/json' \
---body '{
-"username":"kala",
-"password": "kala@1234",
-"name" : "kala_chawal"
-}'
+```
+groq.api.key=ENTER_YOUR_GROQ_API_HERE
+```
 
-// get user details
-postman request 'http://localhost:8080/api/resumes/profile/{Id}'
+---
+
+# 📚 API Documentation
+
+This project uses **Swagger UI** for API documentation and testing.
+
+Open the following URL in your browser:
+
+```
+http://localhost:8080/swagger-ui/index.html#/
+```
+
+You can test all available APIs directly from this interface.
+
+---
+
+# 🗄 Database Console
+
+The project uses **H2 Database**.
+
+To access the H2 console, open:
+
+```
+http://localhost:8080/h2-console
+```
+
+From here you can:
+
+* View database tables
+* Run SQL queries
+* Inspect schema and stored data
+
+---
+
+# 🐳 Run Using Docker
+
+You can run the application directly from Docker Hub.
+
+### Pull the Image
+
+```
+docker pull hoshiyar9351/tmps-backend:latest
+```
+
+### Run the Container
+
+```
+docker run -p 8080:8080 hoshiyar9351/tmps-backend:latest
+```
+
+After running the container, open:
+
+```
+http://localhost:8080
+```
+
+---
+
+# 🔗 Docker Repository
+
+Docker Image available here:
+
+https://hub.docker.com/r/hoshiyar9351/tmps-backend
+
+---
+
+# 🛠 Tech Stack
+
+* Java
+* Spring Boot
+* H2 Database
+* Swagger (OpenAPI)
+* Docker
+
+---
+
