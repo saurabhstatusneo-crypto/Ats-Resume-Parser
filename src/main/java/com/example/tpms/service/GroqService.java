@@ -22,7 +22,6 @@ import java.util.*;
 @Service
 public class GroqService {
 
-
     @Value("${groq.api.key}")
     private String apiKey;
 
